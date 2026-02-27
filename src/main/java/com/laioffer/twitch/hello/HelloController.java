@@ -9,8 +9,9 @@ public class HelloController {
 
 
     @GetMapping("/hello")
-    public String sayHello() {
-        System.out.println("hello world");
-        return "Hello World!";
+    public Person sayHello() {
+        return new Person("name", "company",
+                new Address("street", "city", null, "country"),
+                new Book("title", "author"));
     }
 }
