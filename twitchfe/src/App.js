@@ -5,8 +5,14 @@ import React from "react";
 const ChildA = (props) => {
   return <div>ChildA: {props.num}</div>;
 };
+
 const ChildB = (props) => {
-  return <div>ChildB: {props.num}</div>;
+  return (
+    <>
+      <button onDoubleClick={props.handleButtonClick}>+1</button>
+      <div>ChildB: {props.num}</div>
+    </>
+  );
 };
 
 class App extends React.Component {
@@ -24,9 +30,11 @@ class App extends React.Component {
     return (
       <>
         <div>Counter: {this.state.counter}</div>
-        <button onDoubleClick={this.handleButtonClick}>+1</button>
         <ChildA num={this.state.counter} />
-        <ChildB num={this.state.counter} />
+        <ChildB
+          num={this.state.counter}
+          handleButtonClick={this.handleButtonClick}
+        />
       </>
     );
   }
