@@ -7,6 +7,10 @@ class ChildA extends React.Component {
     console.log("ChildA", "Did Mount");
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    console.log("ChildA", "Did Update", prevProps, prevState);
+  }
+
   render() {
     return <div>ChildA: {this.props.num}</div>;
   }
@@ -15,6 +19,10 @@ class ChildA extends React.Component {
 class ChildB extends React.Component {
   componentDidMount() {
     console.log("ChildB", "Did Mount");
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("ChildB", "Did Update", prevProps, prevState);
   }
 
   render() {
@@ -36,6 +44,10 @@ class App extends React.Component {
         loading: false,
       });
     }, 3000);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("App", "Did Update", prevProps, prevState);
   }
 
   handleButtonClick = () => {
