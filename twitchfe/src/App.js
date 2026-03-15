@@ -2,26 +2,40 @@ import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
 
-const ChildA = (props) => {
-  return <div>ChildA: {props.num}</div>;
-};
+class ChildA extends React.Component {
+  componentDidMount() {
+    console.log("ChildA", "Did Mount");
+  }
 
-const ChildB = (props) => {
-  return (
-    <>
-      <button onDoubleClick={props.handleButtonClick}>+1</button>
-      <div>ChildB: {props.num}</div>
-    </>
-  );
-};
+  render() {
+    return <div>ChildA: {this.props.num}</div>;
+  }
+}
+
+class ChildB extends React.Component {
+  componentDidMount() {
+    console.log("ChildB", "Did Mount");
+  }
+
+  render() {
+    return <div>ChildB: {this.props.num}</div>;
+  }
+}
 
 class App extends React.Component {
   state = {
     counter: 0,
+    loading: true,
   };
 
   componentDidMount() {
     console.log("App", "Did Mount");
+    setTimeout(() => {
+      this.setState({
+        counter: 5,
+        loading: false,
+      });
+    }, 3000);
   }
 
   handleButtonClick = () => {
@@ -34,12 +48,10 @@ class App extends React.Component {
     console.log("App", "Rendering");
     return (
       <>
-        <div>Counter: {this.state.counter}</div>
+        {this.state.loading && <div>Loading...</div>}
+        {!this.state.loading && <div>App Counter: {this.state.counter}</div>}
         <ChildA num={this.state.counter} />
-        <ChildB
-          num={this.state.counter}
-          handleButtonClick={this.handleButtonClick}
-        />
+        <ChildB num={this.state.counter} />
       </>
     );
   }
