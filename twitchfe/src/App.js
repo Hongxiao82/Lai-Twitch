@@ -3,12 +3,23 @@ import "./App.css";
 import React from "react";
 
 class ChildA extends React.Component {
+  state = {
+    counter: 0,
+  };
+
   componentDidMount() {
     console.log("ChildA", "Did Mount");
   }
 
   componentDidUpdate(prevProps, prevState) {
     console.log("ChildA", "Did Update", prevProps, prevState);
+    if (prevState.counter === this.state.counter) {
+      console.log("ChildA", "Did Update: state unchanged");
+    }
+
+    if (prevProps.num === this.props.num) {
+      console.log("ChildA", "Did Update: props unchanged");
+    }
   }
 
   render() {
@@ -43,7 +54,7 @@ class App extends React.Component {
         counter: 5,
         loading: false,
       });
-    }, 3000);
+    }, 1000);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -62,6 +73,9 @@ class App extends React.Component {
       <>
         {this.state.loading && <div>Loading...</div>}
         {!this.state.loading && <div>App Counter: {this.state.counter}</div>}
+        {!this.state.loading && (
+          <button onClick={this.handleButtonClick}>+1</button>
+        )}
         <ChildA num={this.state.counter} />
         <ChildB num={this.state.counter} />
       </>
