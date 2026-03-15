@@ -20,6 +20,10 @@ class App extends React.Component {
     counter: 0,
   };
 
+  componentDidMount() {
+    console.log("App", "Did Mount");
+  }
+
   handleButtonClick = () => {
     this.setState({
       counter: this.state.counter + 1,
@@ -27,6 +31,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log("App", "Rendering");
     return (
       <>
         <div>Counter: {this.state.counter}</div>
