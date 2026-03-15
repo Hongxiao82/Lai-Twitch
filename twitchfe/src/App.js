@@ -5,10 +5,14 @@ import React from "react";
 class ChildA extends React.Component {
   componentDidMount() {
     console.log("ChildA", "Did Mount");
+    this.intervalId = setInterval(() => {
+      console.log("interval run");
+    }, 1000);
   }
 
   componentWillUnmount() {
     console.log("ChildA", "Will Unmount");
+    clearInterval(this.intervalId);
   }
 
   render() {
