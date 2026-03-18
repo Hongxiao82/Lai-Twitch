@@ -11,13 +11,19 @@ const ChildA = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log("time is up");
+      console.log("amount");
     }, 1000);
   }, []);
 
   useEffect(() => {
     console.log("after every render when dependencies have been changed");
   }, [props.num]);
+
+  useEffect(() => {
+    return () => {
+      console.log("will unamount");
+    };
+  }, []);
 
   return (
     <>
