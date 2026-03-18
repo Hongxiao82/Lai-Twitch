@@ -1,57 +1,56 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-class ChildA extends React.Component {
-  componentDidMount() {
-    console.log("ChildA", "Did Mount");
-    this.intervalId = setInterval(() => {
-      console.log("interval run");
+const ChildA = (props) => {
+  const [counter, setCounter] = useState(0);
+
+  const handleClick = () => {
+    setCounter(counter + 1);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("time is up");
     }, 1000);
-  }
+  }, []);
 
-  componentWillUnmount() {
-    console.log("ChildA", "Will Unmount");
-    clearInterval(this.intervalId);
-  }
+  useEffect(() => {
+    console.log("after every render when dependencies have been changed");
+  }, [props.num]);
 
-  render() {
-    return <div>ChildA: {this.props.num}</div>;
-  }
-}
+  return (
+    <>
+      <div>ChildA: {counter}</div>
+      <button onClick={handleClick}>+1</button>
+    </>
+  );
+};
 
-class ChildB extends React.Component {
-  render() {
-    return <div>ChildB: {this.props.num}</div>;
-  }
-}
+const ChildB = (props) => {
+  return <div>ChildB: {props.num}</div>;
+};
 
-class App extends React.Component {
-  state = {
-    counter: 0,
-    showChild: false,
+const App = () => {
+  const [counter, setCounter] = useState(0);
+  const [showChild, setShowChild] = useState(false);
+
+  const handleButtonClick = () => {
+    setShowChild(!showChild);
   };
 
-  componentDidMount() {
-    console.log("App", "Did Mount");
-  }
-
-  handleButtonClick = () => {
-    this.setState({
-      showChild: !this.state.showChild,
-    });
+  const handleButtonClick2 = () => {
+    setCounter(counter + 1);
   };
 
-  render() {
-    console.log("App", "Rendering");
-    return (
-      <>
-        {this.state.showChild && <ChildA num={this.state.counter} />}
-        <button onClick={this.handleButtonClick}>Toggle Child</button>
-        <ChildB num={this.state.counter} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      {showChild && <ChildA num={counter} />}
+      <button onClick={handleButtonClick}>Toggle Child</button>
+      <button onClick={handleButtonClick2}>app counter +1</button>
+      <ChildB num={counter} />
+    </>
+  );
+};
 
 export default App;
