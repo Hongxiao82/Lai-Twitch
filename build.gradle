@@ -28,6 +28,8 @@ dependencyManagement {
     }
 }
 dependencies {
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.+'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
