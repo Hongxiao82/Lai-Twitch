@@ -1,12 +1,15 @@
 import React from "react";
 import { Layout } from "antd";
+import Login from "./components/Login";
 
 const { Header, Content, Sider } = Layout;
 
 function App() {
   return (
     <Layout>
-      <Header>{"Header"}</Header>
+      <Header>
+        <Login />
+      </Header>
       <Layout>
         <Sider width={300} className="site-layout-background">
           {"Sider"}
