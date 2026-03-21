@@ -1,62 +1,32 @@
-import logo from "./logo.svg";
-import "./App.css";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Layout } from "antd";
 
-const ChildA = (props) => {
-  const [counter, setCounter] = useState(0);
+const { Header, Content, Sider } = Layout;
 
-  const handleClick = () => {
-    setCounter(counter + 1);
-  };
-
-  useEffect(() => {
-    setTimeout(() => {
-      console.log("amount");
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
-    console.log("after every render when dependencies have been changed");
-  }, [props.num]);
-
-  useEffect(() => {
-    return () => {
-      console.log("will unamount");
-    };
-  }, []);
-
+function App() {
   return (
-    <>
-      <div>ChildA: {counter}</div>
-      <button onClick={handleClick}>+1</button>
-    </>
+    <Layout>
+      <Header>{"Header"}</Header>
+      <Layout>
+        <Sider width={300} className="site-layout-background">
+          {"Sider"}
+        </Sider>
+        <Layout style={{ padding: "24px" }}>
+          <Content
+            className="site-layout-background"
+            style={{
+              padding: 24,
+              margin: 0,
+              height: 800,
+              overflow: "auto",
+            }}
+          >
+            {"Home"}
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   );
-};
-
-const ChildB = (props) => {
-  return <div>ChildB: {props.num}</div>;
-};
-
-const App = () => {
-  const [counter, setCounter] = useState(0);
-  const [showChild, setShowChild] = useState(false);
-
-  const handleButtonClick = () => {
-    setShowChild(!showChild);
-  };
-
-  const handleButtonClick2 = () => {
-    setCounter(counter + 1);
-  };
-
-  return (
-    <>
-      {showChild && <ChildA num={counter} />}
-      <button onClick={handleButtonClick}>Toggle Child</button>
-      <button onClick={handleButtonClick2}>app counter +1</button>
-      <ChildB num={counter} />
-    </>
-  );
-};
+}
 
 export default App;
