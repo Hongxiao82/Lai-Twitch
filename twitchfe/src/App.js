@@ -1,14 +1,35 @@
-import React from "react";
-import { Layout } from "antd";
-import Login from "./components/Login";
+import React, { useState } from "react";
+import { Layout, message } from "antd";
+import { logout } from "./utils";
 import PageHeader from "./components/PageHeader";
 
 const { Header, Content, Sider } = Layout;
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const signinOnSuccess = () => {
+    setLoggedIn(true);
+  };
+
+  const signoutOnClick = () => {
+    logout()
+      .then(() => {
+        setLoggedIn(false);
+        message.success("Successfully Signed out");
+      })
+      .catch((err) => {
+        message.error(err.message);
+      });
+  };
+
   return (
     <Layout>
-      <PageHeader />
+      <PageHeader
+        loggedIn={loggedIn}
+        signoutOnClick={signoutOnClick}
+        signinOnSuccess={signinOnSuccess}
+      />
       <Layout>
         <Sider width={300} className="site-layout-background">
           {"Sider"}
