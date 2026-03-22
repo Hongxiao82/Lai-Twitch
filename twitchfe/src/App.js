@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { Layout, message } from "antd";
-import { logout } from "./utils";
+import { logout, getFavoriteItem } from "./utils";
 import PageHeader from "./components/PageHeader";
 
 const { Header, Content, Sider } = Layout;
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [favoriteItems, setFavoriteItems] = useState([]);
 
   const signinOnSuccess = () => {
     setLoggedIn(true);
+    getFavoriteItem().then((data) => {
+      setFavoriteItems(data);
+    });
   };
 
   const signoutOnClick = () => {
@@ -25,11 +29,14 @@ function App() {
 
   return (
     <Layout>
-      <PageHeader
-        loggedIn={loggedIn}
-        signoutOnClick={signoutOnClick}
-        signinOnSuccess={signinOnSuccess}
-      />
+      <Header>
+        <PageHeader
+          loggedIn={loggedIn}
+          signoutOnClick={signoutOnClick}
+          signinOnSuccess={signinOnSuccess}
+          favoriteItems={favoriteItems}
+        />
+      </Header>
       <Layout>
         <Sider width={300} className="site-layout-background">
           {"Sider"}
