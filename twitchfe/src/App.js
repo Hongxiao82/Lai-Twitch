@@ -5,8 +5,8 @@ import {
   logout,
   getFavoriteItem,
   getTopGames,
-  getRecommendations,
   searchGameById,
+  getRecommendations,
 } from "./utils";
 import PageHeader from "./components/PageHeader";
 import CustomSearch from "./components/CustomSearch";
@@ -56,6 +56,30 @@ function App() {
     setResources(data);
   };
 
+  const onGameSelect = ({ key }) => {
+    if (key === "recommendation") {
+      getRecommendations().then((data) => {
+        setResources(data);
+      });
+
+      return;
+    }
+
+    searchGameById(key).then((data) => {
+      setResources(data);
+    });
+  };
+
+  const favoriteOnChange = () => {
+    getFavoriteItem()
+      .then((data) => {
+        setFavoriteItems(data);
+      })
+      .catch((err) => {
+        message.error(err.message);
+      });
+  };
+
   const mapTopGamesToProps = (topGames) => [
     {
       label: "Recommend for you!",
@@ -81,19 +105,6 @@ function App() {
       })),
     },
   ];
-
-  const onGameSelect = ({ key }) => {
-    if (key === "recommendation") {
-      getRecommendations().then((data) => {
-        setResources(data);
-      });
-      return;
-    }
-
-    searchGameById(key).then((data) => {
-      setResources(data);
-    });
-  };
 
   return (
     <Layout>
@@ -128,6 +139,7 @@ function App() {
             <Home
               resources={resources}
               loggedIn={loggedIn}
+              favoriteOnChange={favoriteOnChange}
               favoriteItems={favoriteItems}
             />
           </Content>
