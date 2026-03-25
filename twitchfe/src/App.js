@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Layout, message, Menu } from "antd";
 import { LikeOutlined, FireOutlined } from "@ant-design/icons";
-import { logout, getFavoriteItem, getTopGames } from "./utils";
+import {
+  logout,
+  getFavoriteItem,
+  getTopGames,
+  getRecommendations,
+  searchGameById,
+} from "./utils";
 import PageHeader from "./components/PageHeader";
 import CustomSearch from "./components/CustomSearch";
 
@@ -11,6 +17,11 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [topGames, setTopGames] = useState([]);
+  const [resourecs, setResources] = useState({
+    videos: [],
+    streams: [],
+    clips: [],
+  });
 
   useEffect(() => {
     getTopGames()
@@ -40,6 +51,10 @@ function App() {
       });
   };
 
+  const customSearchOnSuccess = (data) => {
+    setResources(data);
+  };
+
   const mapTopGamesToProps = (topGames) => [
     {
       label: "Recommend for you!",
@@ -66,6 +81,18 @@ function App() {
     },
   ];
 
+  const onGameSelect = ({ key }) => {
+    if (key === "recommendation") {
+      getRecommendations().then((data) => {
+        setResources(data);
+      });
+      return;
+    }
+    searchGameById(key).then((data) => {
+      setResources(data);
+    });
+  };
+
   return (
     <Layout>
       <Header>
@@ -78,10 +105,10 @@ function App() {
       </Header>
       <Layout>
         <Sider width={300} className="site-layout-background">
-          <CustomSearch onSuccess={() => {}} />
+          <CustomSearch onSuccess={customSearchOnSuccess} />
           <Menu
             mode="inline"
-            onSelect={() => {}}
+            onSelect={onGameSelect}
             style={{ marginTop: "10px" }}
             items={mapTopGamesToProps(topGames)}
           />
