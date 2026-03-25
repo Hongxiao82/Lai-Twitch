@@ -10,6 +10,7 @@ import {
 } from "./utils";
 import PageHeader from "./components/PageHeader";
 import CustomSearch from "./components/CustomSearch";
+import Home from "./components/Home";
 
 const { Header, Content, Sider } = Layout;
 
@@ -17,7 +18,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [topGames, setTopGames] = useState([]);
-  const [resourecs, setResources] = useState({
+  const [resources, setResources] = useState({
     videos: [],
     streams: [],
     clips: [],
@@ -88,6 +89,7 @@ function App() {
       });
       return;
     }
+
     searchGameById(key).then((data) => {
       setResources(data);
     });
@@ -123,7 +125,11 @@ function App() {
               overflow: "auto",
             }}
           >
-            {"Home"}
+            <Home
+              resources={resources}
+              loggedIn={loggedIn}
+              favoriteItems={favoriteItems}
+            />
           </Content>
         </Layout>
       </Layout>
